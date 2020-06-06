@@ -1,0 +1,20 @@
+c：
+//思路：双指针，head、tail。用maxArea记录最大面积。
+//maxArea = Math.min(height[head],height[tail])*(tail-head);
+//每次移动短的那个指针
+
+#define MAX(a,b) ((a)>(b)?(a):(b))
+#define MIN(a,b) ((a)<(b)?(a):(b))
+int maxArea(int* height, int heightSize){
+    int head = 0, tail = heightSize-1, maxArea = 0;
+    while(head<tail){
+        int temp = MIN(height[head], height[tail])*(tail-head);
+        maxArea = MAX(temp,maxArea);
+        if(height[head]>height[tail]){
+            tail--;
+        }else{
+            head++;
+        }
+    }
+    return maxArea;
+}
