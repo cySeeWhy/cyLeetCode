@@ -1,0 +1,17 @@
+c:
+//主要注意翻转后的数字可能越界问题。
+bool isPalindrome(int x){
+        long res=0;               //数据声明为long避免翻转后res>INT_MAX
+        if(x==0)    return true;
+        if(x<0)     return false;
+        int num = x;
+        while(num!=0){
+            int temp = num%10;
+            res = res*10+temp;
+            num/=10;
+        }
+        if(x==res){
+            return true;
+        }
+        return false;
+}
