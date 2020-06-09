@@ -1,0 +1,35 @@
+char * intToRoman(int num){
+    int key[13] = {1,4,5,9,10,40,50,90,100,400,500,900,1000};
+    int *value[13] = {"I","IV","V","IX","X","XL","L","XC","C","CD","D","CM","M"};
+    char *s = (char *)malloc(20*sizeof(char));     //将申请的内存清零，如果没有此项操作将导致s没有结束符'\0',
+                                                    //报错：*** buffer overflow detected ***: sandbox run terminated
+    memset(s, 0, 20 * sizeof(char));
+    for(int i=12;i>=0;i--){
+        int temp = num/key[i];
+        num = num%key[i];
+        while(temp>0){
+            strcat(s, value[i]);
+            temp--;
+        }
+    }
+    return s;
+}
+
+
+java
+class Solution {
+    public String intToRoman(int num) {
+        int[] key = {1,4,5,9,10,40,50,90,100,400,500,900,1000};
+        String[] value = {"I","IV","V","IX","X","XL","L","XC","C","CD","D","CM","M"};
+        StringBuilder sb = new StringBuilder();
+        for(int i = 12;i>=0;i--){
+            int temp = num/key[i];
+            num -= temp*key[i];
+            while(temp>0){
+                sb.append(value[i]);
+                temp--;
+            }
+        }
+        return sb.toString();
+    }
+}
