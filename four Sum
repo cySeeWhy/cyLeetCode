@@ -1,0 +1,33 @@
+class Solution {
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        ArrayList<List<Integer>> res = new ArrayList<List<Integer>>();
+        if(nums.length<3)   return res;
+        HashSet<List<Integer>> set = new HashSet<List<Integer>>();
+        Arrays.sort(nums);
+        for(int i=0;i<nums.length-3;i++){  
+            for(int m=nums.length-1;m>i+2;m--){
+                int j = i+1;
+                int n = m-1;
+                while(j<n){
+                    if(nums[i]+nums[j]+nums[n]+nums[m]==target){
+                        List<Integer> temp = new ArrayList<>();
+                        temp.add(nums[i]);
+                        temp.add(nums[j]);
+                        temp.add(nums[m]);
+                        temp.add(nums[n]);
+                        set.add(temp);
+                        j++;
+                        n--;
+                    }
+                    else if(nums[i]+nums[j]+nums[n]+nums[m]>target){
+                        n--;
+                    }
+                    else if(nums[i]+nums[j]+nums[n]+nums[m]<target){
+                        j++;
+                    }
+                }
+            }   
+        } 
+        return new ArrayList<>(set);
+    }
+}
