@@ -27,3 +27,32 @@ class Solution{
         return count+div(a-tb,b);
     }
 }
+
+
+#define MIN (-2^32)
+#define MAX (2^32-1)
+
+int fun(int a, int b);
+int divide(int dividend, int divisor);
+
+int divide(int dividend, int divisor){
+    if(dividend==MIN && divisor==-1)    return MAX;
+    int sign = 1;
+    if(divisor == 1) return dividend;
+    if(divisor == -1) return -dividend;
+    if((dividend>0 && divisor<0) || (dividend<0 && divisor>0))  sign = -1;
+    int a = dividend>0 ? -dividend : dividend;
+    int b = divisor>0 ? -divisor : divisor;
+    int res = fun(a, b);
+    return sign==1?res:(-res);
+}
+
+int fun(int a, int b){
+    if(a>b) return 0;
+    int tb = b, count =1;
+    while(tb+tb>=a && tb+tb<0){
+        tb+=tb;
+        count+=count;
+    }
+    return count + fun(a-tb, b);
+}
