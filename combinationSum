@@ -1,0 +1,41 @@
+class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        Qsort(candidates, 0, candidates.length-1);
+        List<List<Integer>> res = new ArrayList<>();
+        if(candidates.length==0)    return res;
+        back(target, candidates, 0, new LinkedList<Integer>(), res);
+        return res;
+    }
+    private void back(int target, int[] candidates, int start, LinkedList<Integer> temp, List<List<Integer>> res){
+        if(target==0)   {
+            res.add(new LinkedList<>(temp));
+            return;
+        }
+        for(int i=start;i<candidates.length;i++){
+            if(target-candidates[i]>=0){
+                temp.addFirst(candidates[i]);
+                back(target-candidates[i], candidates , i, temp, res);
+                temp.removeFirst();
+            }
+        }
+    }
+
+    public void Qsort(int[] arr, int lo, int hi){
+        if(lo<hi){
+            int p = position(arr, lo, hi);
+            Qsort(arr,lo,p-1);
+            Qsort(arr,p+1,hi);
+        }
+    }
+    private int position(int[] arr ,int lo, int hi){
+        int temp = arr[lo];
+        while(lo<hi){
+            while(lo<hi && arr[hi]>=temp)    hi--;
+            arr[lo] = arr[hi];
+            while(lo<hi && arr[lo]<=temp)    lo++;
+            arr[hi] = arr[lo];
+        }
+        arr[lo] = temp;
+        return lo;
+    } 
+}
