@@ -1,0 +1,26 @@
+class Solution {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>> res = new ArrayList<>();
+        if(candidates.length==0)    return res;
+        Arrays.sort(candidates);
+        Set<List<Integer>> set = new HashSet<>();
+        doBack(candidates, 0, target, new LinkedList<Integer>(), set);
+        for(List<Integer> q:set){
+            res.add(q);
+        }
+        return res;
+    }
+    public void doBack(int[] candidates, int start, int target, LinkedList<Integer> temp, Set<List<Integer>> set){
+        if(target==0){
+            set.add(new LinkedList<>(temp));
+            return;
+        }
+        for(int i=start;i<candidates.length;i++){
+            if(candidates[i]<=target){
+                temp.addFirst(candidates[i]);
+                doBack(candidates, i+1, target-candidates[i], temp, set);
+                temp.removeFirst();
+            }
+        }
+    }
+}
