@@ -1,0 +1,73 @@
+c语言DP
+bool isMatch(char * s, char * p){
+    int sLen = strlen(s), pLen = strlen(p);
+    bool** dp = (bool**)malloc((sLen+1)*sizeof(bool*));
+    for(int i=0;i<=sLen;i++){
+        *(dp+i) = (bool*)malloc((pLen+1)*sizeof(bool));
+        memset(*(dp+i), false, (pLen+1)*sizeof(bool));
+    }
+    dp[0][0] = true;
+    for(int j=1;j<=pLen;j++){
+        if(p[j-1]=='*') dp[0][j] = dp[0][j-1];
+    }
+    for(int i=1;i<=sLen;i++){
+        for(int j=1;j<=pLen;j++){
+            if(p[j-1]=='*') dp[i][j] = dp[i-1][j] || dp[i][j-1]; //*匹配0个字符或一个（多个）字符
+            if(s[i-1]==p[j-1] || p[j-1]=='?')   dp[i][j] = dp[i-1][j-1];
+        }
+    }
+    return dp[sLen][pLen];
+}
+
+java dp
+class Solution {
+    public boolean isMatch(String s, String p) {
+        //dp[i][j]表示的是s的i-1字串与p的j-1子串是否匹配
+        boolean[][] dp = new boolean[s.length()+1][p.length()+1];
+        dp[0][0] = true;
+        for(int j=1;j<=p.length();j++){
+            if(p.charAt(j-1)=='*')  dp[0][j] = dp[0][j-1];
+        }
+
+        for(int i=1;i<=s.length();i++){
+            for(int j=1;j<=p.length();j++){
+                if(p.charAt(j-1)=='*')    dp[i][j] = dp[i-1][j] || dp[i][j-1];
+                if(s.charAt(i-1)==p.charAt(j-1)||p.charAt(j-1)=='?')    dp[i][j] = dp[i-1][j-1];
+            }
+        }
+        return dp[s.length()][p.length()];
+    }
+}
+
+
+java递归：某些算例超时
+class Solution {
+    public boolean isMatch(String s, String p) {
+        if(p=="*")  return true;
+        if(s==null && p==null)  return true;
+        if(p==null && s!=null)  return false;
+        int sLen = s.length();
+        int pLen = p.length();
+        char[] ss = s.toCharArray();
+        char[] pp = p.toCharArray();
+        return doFun(ss, 0, sLen, pp, 0, pLen);
+    }
+    private boolean doFun(char[] ss, int sIndex, int sLen, char[] pp, int pIndex, int pLen){
+        if(pIndex==pLen && sIndex!=sLen)    return false;
+        if(pIndex==pLen && sIndex==sLen)    return true;
+        if(pIndex!=pLen && sIndex==sLen){
+            int i = pIndex;
+            while(i<pLen && pp[i]=='*')   i++;
+            return i==pLen;
+        }
+        if((ss[sIndex]==pp[pIndex]) || pp[pIndex]=='?')
+            return doFun(ss, sIndex+1, sLen, pp, pIndex+1, pLen);
+        if(pp[pIndex]=='*'){
+            while(pIndex+1<pLen && pp[pIndex+1]=='*')   pIndex++;
+            return doFun(ss, sIndex, sLen, pp, pIndex+1, pLen) || doFun(ss, sIndex+1, sLen, pp, pIndex+1, pLen)
+                || doFun(ss, sIndex+1, sLen, pp, pIndex, pLen);
+        }
+            
+        return false;
+    }
+}
