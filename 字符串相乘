@@ -1,0 +1,50 @@
+class Solution {
+    public String multiply(String num1, String num2) {
+        if(num1.equals("0") || num2.equals("0"))    return "0";
+        int l1 = num1.length(), l2 = num2.length();
+        StringBuilder res = new StringBuilder(l1+l2);
+        for(int i=0;i<l1;i++){
+            for(int j=0;j<l2;j++){
+                int n1 = num1.charAt(i)-'0';
+                int n2 = num2.charAt(j)-'0';
+                int count = (l1-1-i) + (l2-1-j);
+                StringBuilder sb = new StringBuilder();
+                sb.append(n1*n2+"");
+                while(count>0){
+                    sb.append("0");
+                    count--;
+                }
+                String temp = addString(res, sb);
+                res = new StringBuilder(l1+l2).append(temp);
+            }
+        }
+        return res.toString();
+    }
+    private String addString(StringBuilder s1, StringBuilder s2){
+        StringBuilder res = new StringBuilder();
+        String c1 = s1.reverse().toString();
+        String c2 = s2.reverse().toString();
+        int count = 0;
+        int i=0,j=0;
+        for(;i<c1.length()&&j<c2.length();i++,j++){
+            int n1 = c1.charAt(i)-'0';
+            int n2 = c2.charAt(j)-'0';
+            res.append((n1+n2+count)%10+"");
+            count = (n1+n2+count)/10;
+        }
+        while(i<c1.length()){
+            int n1 = c1.charAt(i)-'0';
+            res.append((n1+count)%10+"");
+            count = (n1+count)/10;
+            i++;
+        }
+        while(j<c2.length()){
+            int n2 = c2.charAt(j)-'0';
+            res.append((n2+count)%10+"");
+            count = (n2+count)/10;
+            j++;
+        }
+        if(count!=0)    res.append(count+"");
+        return res.reverse().toString();
+    }
+}
