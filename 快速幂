@@ -1,0 +1,13 @@
+c语言：
+
+double myPow(double x, int n);
+double quick(double x, long N);
+double myPow(double x, int n){
+    long N=n;
+    return n>0?quick(x,N):1/quick(x,N);
+}
+double quick(double x, long N){
+    if(N==0)    return 1.0;
+    double y = quick(x,N/2);
+    return N%2==0?y*y:y*y*x;
+}
