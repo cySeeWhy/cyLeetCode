@@ -1,0 +1,27 @@
+class Solution {
+    int count = 0;
+    public int totalNQueens(int n) {
+        int[] arr =new int[n];
+        findQueen(arr, 0, n);
+        return count;
+    }
+    public void findQueen(int[] arr, int row, int n){
+        if(n==row){
+            count++;
+            return;
+        }
+        for(int i=0;i<n;i++){
+            arr[row] = i;
+            if(isValid(arr,row)){
+                findQueen(arr, row+1, n);
+            }
+        }
+    }
+    public boolean isValid(int[] arr, int row){
+        for(int i=0;i<row;i++){
+            if(arr[i]==arr[row] || Math.abs(row-i)==Math.abs(arr[row]-arr[i]))
+                return false;
+        }
+        return true;
+    }
+}
