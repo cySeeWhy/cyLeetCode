@@ -1,0 +1,78 @@
+c语言：
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+
+struct ListNode* rotateRight(struct ListNode* head, int k){
+    if(head==NULL)  return NULL;
+    int count =0;
+    struct ListNode *cur = (struct ListNode*)malloc(sizeof(struct ListNode));
+    cur = head;
+    while(cur!=NULL){
+        count++;
+        cur = cur->next;
+    }
+    k = k%count;
+    if(k==0)    return head;
+    int m = count-k;
+    struct ListNode *dummy = (struct ListNode*)malloc(sizeof(struct ListNode));
+    dummy = head;
+    while(m>1){
+        dummy = dummy->next;
+        m--;
+    }
+    struct ListNode *newDummy = (struct ListNode*)malloc(sizeof(struct ListNode));
+    newDummy->next = dummy->next;
+    dummy->next=NULL;
+    cur = newDummy->next;
+    while(cur->next!=NULL){
+        cur = cur->next;
+    }
+    cur->next = head;
+    return newDummy->next;
+}
+
+java:
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+        if(head==null)  return null;
+        ListNode cur = head;
+        int size = 0;
+        while(cur!=null){
+            size++;
+            cur = cur.next;
+        }
+        k = k%size;
+        if(k==0)    return head;
+        int m = size-k;
+
+        ListNode dummy = head;
+        while(m>1){
+            dummy = dummy.next;
+            m--;
+        }
+        ListNode newHead = new ListNode(0);
+        ListNode temp = newHead;
+        newHead.next = dummy.next;
+        dummy.next = null;
+        while(temp.next!=null){
+            temp = temp.next;
+        }
+        temp.next = head;
+        return newHead.next;
+    }
+}
