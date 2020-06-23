@@ -1,0 +1,27 @@
+if(arr.length<=1 || arr==null)   return arr;
+        Arrays.sort(arr, new Comparator<int[]>(){
+            @Override
+            public int compare(int[] a, int[] b){
+                return a[0]-b[0];
+            }
+        });
+        List<int[]> list = new ArrayList<>();
+        int i = 0;
+        while(i<arr.length){
+            int left = arr[i][0];
+            int right = arr[i][1];
+            while(i+1<arr.length && right>=arr[i+1][0]){
+                right = Math.max(right, arr[i+1][1]);
+                i++;
+            }
+            list.add(new int[]{left,right});
+            i++;
+        }
+        int m = list.size();
+        int[][] res = new int[m][2];
+        int j=0;
+        for(int[] num:list){
+            res[j] = num;
+            j++;
+        }
+        return res;
