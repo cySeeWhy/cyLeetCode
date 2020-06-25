@@ -1,0 +1,86 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+ //递归
+class Solution {
+    private ListNode temp;
+    public ListNode deleteDuplicates(ListNode head) {
+        if (head == null || head.next == null) return head;
+
+        ListNode curHead = deleteDuplicates(head.next);
+        if(temp == null) temp = curHead;
+        if (temp.val == head.val) {
+//            head.next = null;
+            return temp.next;
+        } else {
+            head.next = curHead;
+            temp = head;
+            return head;
+        }
+    }
+}
+
+//dummy,left,right .三个指针去记录。
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        if(head==null || head.next==null)   return head;
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        ListNode DNode = dummy;
+        while(dummy.next!=null){
+            ListNode left = dummy.next;
+            ListNode right = dummy.next;
+            while(right.next!=null && right.next.val == right.val)   right = right.next;
+            if(left==right) dummy=dummy.next;
+            else{
+                dummy.next = right.next;
+                right.next=null;
+            }
+        }
+        return DNode.next;
+    }
+}
+
+c语言：
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+
+struct ListNode* deleteDuplicates(struct ListNode* head){
+    if(head==NULL || head->next==NULL)  return head;
+    struct ListNode* dummy = (struct ListNode*)malloc(sizeof(struct ListNode));
+    dummy->next = head;
+    struct ListNode* DNode = (struct ListNode*)malloc(sizeof(struct ListNode));
+    DNode = dummy;
+    struct ListNode* left = (struct ListNode*)malloc(sizeof(struct ListNode));
+    struct ListNode* right = (struct ListNode*)malloc(sizeof(struct ListNode));
+    while(dummy->next !=NULL){
+        left = dummy->next;
+        right = dummy->next;
+        while(right->next!=NULL && right->val==right->next->val) right = right->next;
+        if(left==right) dummy = dummy->next;
+        else{
+            dummy->next = right->next;
+            right->next = NULL;
+        }
+    }
+    return DNode->next;
+}
