@@ -1,0 +1,56 @@
+c
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+
+struct ListNode* deleteDuplicates(struct ListNode* head){
+    if(head==NULL || head->next==NULL)  return head;
+    struct ListNode* dummy = (struct ListNode*)malloc(sizeof(struct ListNode));
+    struct ListNode* temp = (struct ListNode*)malloc(sizeof(struct ListNode));
+    dummy->next = head;
+    while(dummy->next!=NULL){
+        if(dummy->val==dummy->next->val){
+            temp = dummy->next;
+            dummy->next = temp->next;
+            temp->next==NULL;
+        }else{
+            dummy = dummy->next;
+        }
+    }
+    return head;
+}
+
+java
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        if(head==null || head.next==null)   return head;
+        ListNode dummy = new ListNode(-999);
+        dummy.next = head;
+        while(dummy.next!=null){
+            if(dummy.val==dummy.next.val){
+                ListNode temp = dummy.next;
+                dummy.next = temp.next;
+                temp.next = null;
+            }
+            else
+                dummy = dummy.next;
+            
+        }
+        return head;
+    }
+}
