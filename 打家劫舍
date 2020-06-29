@@ -1,0 +1,18 @@
+#define MAX(a,b) (a>b?a:b)
+int rob(int* nums, int numsSize){
+    if(numsSize==0) return 0;
+    if(numsSize==1) return nums[0];
+    int* dp = (int*)malloc(numsSize*sizeof(int));
+    dp[0] = nums[0], dp[1] = nums[1];
+    int res = MAX(dp[0], dp[1]);
+    for(int i=2;i<numsSize;i++){
+        if(i==2){
+            dp[i] = dp[i-2]+nums[i];
+            res = MAX(res, dp[i]);
+        }else{
+            dp[i] = MAX(dp[i-2], dp[i-3])+nums[i];
+            res = MAX(res, dp[i]);
+        }
+    }
+    return res;
+}
