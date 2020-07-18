@@ -1,0 +1,54 @@
+c语言：
+
+#define MIN(a,b) (a)<(b)?(a):(b)
+#define MAX(a,b) (a)>(b)?(a):(b)
+int maximalRectangle(char** matrix, int matrixSize, int* matrixColSize){
+    if(matrixSize==0 || matrixColSize[0]==0)    return 0;
+    int m = matrixSize, n = matrixColSize[0];
+    int** dp = (int**)malloc(m*sizeof(int*));
+    for(int i=0;i<m;i++){
+        *(dp+i) = (int*)malloc(n*sizeof(int));
+        memset(*(dp+i), 0, n*sizeof(int));
+    }
+    int res = 0;
+    for(int i=0;i<m;i++){
+        for(int j=0;j<n;j++){
+            if(matrix[i][j]=='1'){
+                dp[i][j] = j==0?1:dp[i][j-1]+1;
+                int width = dp[i][j];
+                for(int k=i;k>=0;k--){
+                    width = MIN(dp[k][j], width);
+                    int temp = (i-k+1)*width;
+                    res = MAX(res, temp);
+                }
+            }
+        }
+    }
+    return res;
+}
+
+
+Java、
+
+class Solution {
+    public int maximalRectangle(char[][] matrix) {
+        if(matrix.length==0)    return 0;
+        int m = matrix.length, n = matrix[0].length;
+        int[][] dp = new int[m][n];
+        int max = 0;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(matrix[i][j]=='1'){
+                    if(j==0)    dp[i][j] = 1;
+                    else    dp[i][j] = dp[i][j-1]+1;
+                    int width = dp[i][j];
+                    for(int k = i;k>=0;k--){
+                        width = Math.min(dp[k][j],width);
+                        max = Math.max(max, width*(i-k+1));
+                    }
+                }
+            }
+        }
+        return max;
+    }
+}
